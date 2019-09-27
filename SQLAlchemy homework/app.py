@@ -9,11 +9,14 @@ from sqlalchemy import create_engine, func
 
 from flask import Flask, jsonify
 
-engine = create_engine("sqlite:///hawaii.sqlite")
+engine = create_engine("sqlite:///hawaii.sqlite", echo=False)
 
+# reflect an existing database into a new model
 Base = automap_base()
+# reflect the tables
 Base.prepare(engine, reflect=True)
 
+# Save references to each table
 Measurement = Base.classes.measurement
 Station = Base.classes.station
 
@@ -59,3 +62,6 @@ def stations():
     
     stations = list(np.ravel(results))
     return jsonify(stations)
+
+if __name__ == '__main__':
+    app.run()
